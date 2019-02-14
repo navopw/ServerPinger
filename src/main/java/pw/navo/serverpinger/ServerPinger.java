@@ -89,7 +89,6 @@ public class ServerPinger {
                         }
                     }
                 }
-
             } else {
                 status.setLastStateChangeTimestamp(System.currentTimeMillis());
             }
