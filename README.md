@@ -11,7 +11,7 @@ Receive push notifications on your phone when your server goes online/offline! :
 ### Installation
 
 - Download and run ServerPinger once so the configuration file gets generated
-- Create a https://pushover.net/ Account
+- Create a https://pushover.net/ Account (7 days trial and one time payment 4.99$)
 - Create an application on Pushover.net
 - Paste **user key** and **application token** from Pushover.net to your config
 - Enter the ip addresses you want to ping in the config
