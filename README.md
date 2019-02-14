@@ -31,7 +31,7 @@ Press Ctrl + A + D to get out of the console screen
 
 ### Update
 
-When you update ServerPinger please back up your configuration file and remove it from the folder where the .jar is located, so ServerPinger can generate a new one. Then merge your old configuration with the new generated one.
+When you update ServerPinger please backup your configuration file and remove it from the folder where the .jar is located, so ServerPinger can generate a new one. Then merge your old configuration with the new generated one.
 
 ### Configuration
 
