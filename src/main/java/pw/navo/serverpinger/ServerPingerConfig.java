@@ -24,7 +24,7 @@ public class ServerPingerConfig {
     private String pushover_user = "";
     private int timeout = 3000;
     private int period = 5000;
-    private int notifytime = 10000;
+    private int notifytime = 20000;
 
     public void save() {
         Properties properties = new Properties();

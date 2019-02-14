@@ -34,6 +34,7 @@ Press Ctrl + A + D to get out of the console screen
 [Click here](https://github.com/navopw/ServerPinger/releases)
 
 ### Configuration
+
 serverpinger.properties
 
 | Property | Description | Example |
@@ -43,12 +44,17 @@ serverpinger.properties
 | pushover_token | Token you can find when you created an application on the Pushover website | xWcQRIn1d8TplyV06P32sdTsi0OhY3DS7E0InX94 |
 | timeout | The time before the ServerPinger aborts the ping try and declares server as not reachable | 3000 (milliseconds) |
 | period | The period in which the ServerPinger should ping the ip addresses | 5000 (milliseconds) |
-| notifytime | The time a server has to be offline or online again to trigger a push notification | 10000 (milliseconds) |
+| notifytime | The time a server has to be offline or online again to trigger a push notification | 20000 (milliseconds) |
+
+### Update
+When you update ServerPinger please back up your configuration file and remove it from the folder where the .jar is located, so ServerPinger can generate a new one. Then merge your old configuration with the new generated one.
+
 ### Any suggestions?
 
 [Create an issue](https://github.com/navopw/ServerPinger/issues/new)
 
 ### License
+
 [![MIT Licence](https://badges.frapsoft.com/os/mit/mit.svg?v=103)](https://opensource.org/licenses/mit-license.php)
 
 MIT License
