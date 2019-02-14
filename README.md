@@ -37,7 +37,7 @@ serverpinger.properties
 | servers | Comma seperated ip addresses | 1.1.1.1,8.8.8.8 |
 | pushover_user | User key you can find in the Pushover dashboard | nK1ykIcIHV1r5Hf0AAg0xcasFmsXVLPqiCVa3Izz |
 | pushover_token | Token you can find when you created an application on the Pushover website | xWcQRIn1d8TplyV06P32sdTsi0OhY3DS7E0InX94 |
-| timeout | The time before the ServerPinger aborts the ping try and declares server as not reachable | 3000 |
+| timeout | The time before the ServerPinger aborts the ping try and declares server as not reachable in milliseconds| 3000 |
 | period | The period in which the ServerPinger should ping the ip addresses in milliseconds | 5000 |
 
 ### Any suggestions?
