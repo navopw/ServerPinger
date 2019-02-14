@@ -30,10 +30,11 @@ public class ServerPinger {
         //First notification
         String onlineServers = this.getOnlineServers().keySet().stream().collect(Collectors.joining(", "));
         String offlineServers = this.getOfflineServers().keySet().stream().collect(Collectors.joining(", "));
+
         try {
             this.pushover.sendNotification("ServerPinger [" + ServerPingerLogger.getFormattedDateString() + "]",
                     (!onlineServers.isEmpty() ? "Online: " + onlineServers : "") +
-                            (!offlineServers.isEmpty() ? "\nOffline: " + offlineServers : "")
+                            (!offlineServers.isEmpty() ? (!onlineServers.isEmpty() ? "\n" : "") + "Offline: " + offlineServers : "")
             );
         } catch (IOException exception) {
             exception.printStackTrace();

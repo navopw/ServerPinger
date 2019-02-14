@@ -1,6 +1,11 @@
 # ServerPinger
 Receive push notifications to your phone when your server goes online/offline! :mailbox_closed:
 
+### Screenshots
+
+![](https://i.imgur.com/rmb2AfB.jpg)
+
+
 ### Installation
 
 - Run ServerPinger once so the configuration file gets generated
