@@ -5,23 +5,18 @@ import lombok.Data;
 @Data
 public class ServerStatus {
 
-    private int streak;
+    //The last known ping in ms
     private long lastPing;
+    //Last state change as timestamp (currentTimeMillis)
+    private long lastStateChangeTimestamp;
+    //Whether the last push notification was positive or negative
     private boolean lastNotify;
 
     /**
-     * @return Returns true if last ping was successful
+     * @return Returns true if last ping was successful (not -1)
      */
-    public boolean getLastPing() {
+    public boolean lastPingSuccessful() {
         return lastPing != -1;
-    }
-
-    public void incrementStreak() {
-        this.streak++;
-    }
-
-    public void resetStreak() {
-        this.streak = 0;
     }
 
 }

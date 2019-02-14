@@ -18,7 +18,7 @@ public class ServerPinger {
         this.timer = new Timer();
     }
 
-    public void start(List<String> servers, String user, String token, int timeout, int period) {
+    public void start(List<String> servers, String user, String token, int timeout, int period, int notifytime) {
         //Pushover
         this.pushover = new Pushover(user, token);
 
@@ -41,7 +41,7 @@ public class ServerPinger {
         }
 
         //Start Task
-        this.startTask(this.servers.keySet(), 3, timeout, period);
+        this.startTask(this.servers.keySet(), timeout, period, notifytime);
 
         ServerPingerLogger.info("Started task, now checking every " + Math.round(period / 1000) + " seconds...");
     }
@@ -54,8 +54,9 @@ public class ServerPinger {
         try {
             long ms = ServerPingerTask.pingServer(server, timeout);
             status.setLastPing(ms);
-            status.setLastNotify(status.getLastPing());
-            ServerPingerLogger.info(server, "First check: " + ms + "ms (" + (status.getLastPing() ? "online" : "offline") + ")");
+            status.setLastNotify(status.lastPingSuccessful());
+            status.setLastStateChangeTimestamp(System.currentTimeMillis());
+            ServerPingerLogger.info(server, "First check: " + ms + "ms (" + (status.lastPingSuccessful() ? "online" : "offline") + ")");
         } catch (IOException exception) {
             status.setLastPing(-1);
             status.setLastNotify(false);
@@ -63,28 +64,34 @@ public class ServerPinger {
         }
     }
 
-    public void startTask(Set<String> servers, int streakLimit, int timeout, int period) {
+    public void startTask(Set<String> servers, int timeout, int period, int notifytime) {
         ServerPingerTask task = new ServerPingerTask(servers, timeout, (server, ping) -> {
             ServerStatus status = this.servers.get(server);
 
-            boolean pingResultSuccessful = (ping != -1);
+            boolean pingSuccessful = (ping != -1);
 
-            if (pingResultSuccessful == status.getLastPing()) {
-                status.incrementStreak();
+            //If the state has not changed
+            if (pingSuccessful == status.lastPingSuccessful()) {
+                long stateTime = System.currentTimeMillis() - status.getLastStateChangeTimestamp();
 
-                ServerPingerLogger.info(server, ping + "ms, Streak: " + status.getStreak());
+                ServerPingerLogger.info(server, ping + "ms, lastStateChange: " + stateTime + "ms ago");
 
-                if (status.getStreak() >= streakLimit && status.isLastNotify() != pingResultSuccessful) {
-                    try {
-                        this.pushover.sendNotification("ServerPinger [" + ServerPingerLogger.getFormattedDateString() + "]", server + " ist " + (pingResultSuccessful ? "wieder online" : "offline"));
-                        status.setLastNotify(pingResultSuccessful);
-                    } catch (IOException exception) {
-                        ServerPingerLogger.info(server, "Failed sending push notification");
-                        exception.printStackTrace();
+                //If the state is the same for {notifytime} milliseconds
+                if (stateTime > notifytime) {
+                    //If the current state differs from the last notification
+                    if (status.isLastNotify() != pingSuccessful) {
+                        try {
+                            this.pushover.sendNotification("ServerPinger [" + ServerPingerLogger.getFormattedDateString() + "]", server + " ist " + (pingSuccessful ? "wieder online" : "offline"));
+                            status.setLastNotify(pingSuccessful);
+                        } catch (IOException exception) {
+                            ServerPingerLogger.info(server, "Failed sending push notification");
+                            exception.printStackTrace();
+                        }
                     }
                 }
+
             } else {
-                status.resetStreak();
+                status.setLastStateChangeTimestamp(System.currentTimeMillis());
             }
 
             status.setLastPing(ping);
@@ -95,13 +102,13 @@ public class ServerPinger {
 
     public Map<String, ServerStatus> getOnlineServers() {
         return this.servers.entrySet().stream()
-                .filter(map -> map.getValue().getLastPing())
+                .filter(map -> map.getValue().lastPingSuccessful())
                 .collect(Collectors.toMap(map -> map.getKey(), map -> map.getValue()));
     }
 
     public Map<String, ServerStatus> getOfflineServers() {
         return this.servers.entrySet().stream()
-                .filter(map -> !map.getValue().getLastPing())
+                .filter(map -> !map.getValue().lastPingSuccessful())
                 .collect(Collectors.toMap(map -> map.getKey(), map -> map.getValue()));
     }
 
@@ -142,7 +149,14 @@ public class ServerPinger {
 
         //Start
         ServerPinger serverPinger = new ServerPinger();
-        serverPinger.start(config.getServers(), config.getPushover_user(), config.getPushover_token(), config.getTimeout(), config.getPeriod());
+        serverPinger.start(
+                config.getServers(),
+                config.getPushover_user(),
+                config.getPushover_token(),
+                config.getTimeout(),
+                config.getPeriod(),
+                config.getNotifytime()
+        );
     }
 
 }

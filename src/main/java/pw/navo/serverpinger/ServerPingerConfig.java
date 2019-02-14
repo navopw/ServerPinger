@@ -24,6 +24,7 @@ public class ServerPingerConfig {
     private String pushover_user = "";
     private int timeout = 3000;
     private int period = 5000;
+    private int notifytime = 10000;
 
     public void save() {
         Properties properties = new Properties();
@@ -33,6 +34,7 @@ public class ServerPingerConfig {
         properties.setProperty("pushover_user", this.pushover_user);
         properties.setProperty("timeout", Integer.toString(this.timeout));
         properties.setProperty("period", Integer.toString(this.period));
+        properties.setProperty("notifytime", Integer.toString(this.notifytime));
 
         try {
             if (!this.configFile.exists()) {
@@ -55,6 +57,7 @@ public class ServerPingerConfig {
             this.pushover_user = properties.getProperty("pushover_user");
             this.timeout = Integer.parseInt(properties.getProperty("timeout"));
             this.period = Integer.parseInt(properties.getProperty("period"));
+            this.notifytime = Integer.parseInt(properties.getProperty("notifytime"));
         } catch (IOException exception) {
             exception.printStackTrace();
         }
