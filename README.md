@@ -1,5 +1,5 @@
 # ServerPinger
-Receive push notifications to your phone when your server goes online/offline! :mailbox_closed:
+Receive push notifications on your phone when your server goes online/offline! :mailbox_closed:
 
 **I definetly recommend running ServerPinger on a Raspberry Pi or something compareable, so you don't miss out any push notifications.**
 
