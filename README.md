@@ -13,16 +13,15 @@ Receive push notifications on your phone when your server goes online/offline! :
 
 ### Download
 
-<a href="https://github.com/navopw/ServerPinger/releases" target="_blank">Click here</a>
+[Click here](https://github.com/navopw/ServerPinger/releases)
 
 ### Installation
 
 - Download and run ServerPinger once so the configuration file gets generated
-- Create a <a href="https://pushover.net" target="_blank">Pushover</a> Account and download the app in your app store (7 days trial and then 4.99$ one time payment)
+- Create a [Pushover](https://pushover.net) Account and download the app in your app store and login (7 days trial and then 4.99$ one time payment)
 - Create an application on Pushover.net
 - Paste **user key** and **application token** from Pushover.net to your config
 - Write the ip addresses you want to monitor into the config (See configuration section)
-
 
 I recommend using ServerPinger with `screen` so it runs in background.
 
