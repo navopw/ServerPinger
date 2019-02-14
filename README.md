@@ -11,17 +11,18 @@ Receive push notifications on your phone when your server goes online/offline! :
 
 ![](https://i.imgur.com/9pwSK5f.png)
 
+### Download
+
+<a href="https://github.com/navopw/ServerPinger/releases" target="_blank">Click here</a>
 
 ### Installation
 
 - Download and run ServerPinger once so the configuration file gets generated
-- Create a https://pushover.net/ Account (7 days trial and one time payment 4.99$)
+- Create a <a href="https://pushover.net" target="_blank">Pushover</a> Account and download the app in your app store (7 days trial and then 4.99$ one time payment)
 - Create an application on Pushover.net
 - Paste **user key** and **application token** from Pushover.net to your config
-- Enter the ip addresses you want to ping in the config
+- Write the ip addresses you want to monitor into the config (See configuration section)
 
-
-### Run ServerPinger
 
 I recommend using ServerPinger with `screen` so it runs in background.
 
@@ -29,9 +30,9 @@ For example: `screen -S serverpinger java -jar serverpinger-1.0.0.jar`
 
 Press Ctrl + A + D to get out of the console screen
 
-### Download
+### Update
 
-[Click here](https://github.com/navopw/ServerPinger/releases)
+When you update ServerPinger please back up your configuration file and remove it from the folder where the .jar is located, so ServerPinger can generate a new one. Then merge your old configuration with the new generated one.
 
 ### Configuration
 
@@ -46,8 +47,6 @@ serverpinger.properties
 | period | The period in which the ServerPinger should ping the ip addresses | 5000 (milliseconds) |
 | notifytime | The time a server has to be offline or online again to trigger a push notification | 20000 (milliseconds) |
 
-### Update
-When you update ServerPinger please back up your configuration file and remove it from the folder where the .jar is located, so ServerPinger can generate a new one. Then merge your old configuration with the new generated one.
 
 ### Any suggestions?
 
