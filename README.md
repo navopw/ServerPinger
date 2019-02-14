@@ -13,7 +13,7 @@ Receive push notifications on your phone when your server goes online/offline! :
 
 ### Download
 
-[Click here](https://github.com/navopw/ServerPinger/releases)
+[Click here](https://github.com/navopw/ServerPinger/releases) (requires Java 8 or later)
 
 ### Installation
 
