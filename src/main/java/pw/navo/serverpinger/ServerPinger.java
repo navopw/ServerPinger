@@ -81,7 +81,7 @@ public class ServerPinger {
                     //If the current state differs from the last notification
                     if (status.isLastNotify() != pingSuccessful) {
                         try {
-                            this.pushover.sendNotification("ServerPinger [" + ServerPingerLogger.getFormattedDateString() + "]", server + " ist " + (pingSuccessful ? "wieder online" : "offline"));
+                            this.pushover.sendNotification("ServerPinger [" + ServerPingerLogger.getFormattedDateString() + "]", server + " is " + (pingSuccessful ? "online again" : "offline"));
                             status.setLastNotify(pingSuccessful);
                         } catch (IOException exception) {
                             ServerPingerLogger.info(server, "Failed sending push notification");
