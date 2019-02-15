@@ -118,13 +118,24 @@ public class ServerPinger {
         ServerPingerConfig config = new ServerPingerConfig();
 
         if (!config.getConfigFile().exists()) {
-            config.save();
+            try {
+                config.save();
+            } catch (IOException exception) {
+                ServerPingerLogger.info("Failed saving config!");
+                exception.printStackTrace();
+            }
             ServerPingerLogger.info("Created config file, please configure before you start ServerPinger!");
             return;
         }
 
-        config.load();
-        ServerPingerLogger.info("Config loaded!");
+        try {
+            config.load();
+            ServerPingerLogger.info("Config loaded!");
+        } catch (IOException exception) {
+            ServerPingerLogger.info("Failed loading config!");
+            exception.printStackTrace();
+        }
+
 
         //Config checks
         if (config.getServers().isEmpty()) {
