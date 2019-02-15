@@ -136,7 +136,6 @@ public class ServerPinger {
             exception.printStackTrace();
         }
 
-
         //Config checks
         if (config.getServers().isEmpty()) {
             ServerPingerLogger.info("Please enter ip addresses seperated by commas to the config!");
