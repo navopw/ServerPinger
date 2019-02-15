@@ -6,7 +6,7 @@
     <name>ServerPinger</name>
     <groupId>pw.navo</groupId>
     <artifactId>serverpinger</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
     <properties>
         <mainclass>pw.navo.serverpinger.ServerPinger</mainclass>
     </properties>

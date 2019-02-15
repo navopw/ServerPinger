@@ -23,11 +23,12 @@ public class ServerPinger {
      * @param servers All ip addresses/domains the serverpinger should consider
      * @param user The user key from your pushover account
      * @param token The token from your application at the pushover website
+     * @param initialNotification If true an overview of the Online/Offline servers will be shown on start/first check
      * @param timeout The time before the ServerPinger aborts the ping try and declares server as not reachable
      * @param period The period in which the ServerPinger should ping the ip addresses
      * @param notifytime The time a server has to be offline or online again to trigger a push notification
      */
-    public void start(List<String> servers, String user, String token, int timeout, int period, int notifytime) {
+    public void start(List<String> servers, String user, String token, boolean initialNotification, int timeout, int period, int notifytime) {
         //Pushover
         this.pushover = new Pushover(user, token);
 
@@ -37,16 +38,18 @@ public class ServerPinger {
         }
 
         //First notification
-        String onlineServers = this.getOnlineServers().keySet().stream().collect(Collectors.joining(", "));
-        String offlineServers = this.getOfflineServers().keySet().stream().collect(Collectors.joining(", "));
+        if (initialNotification) {
+            String onlineServers = this.getOnlineServers().keySet().stream().collect(Collectors.joining(", "));
+            String offlineServers = this.getOfflineServers().keySet().stream().collect(Collectors.joining(", "));
 
-        try {
-            this.pushover.sendNotification("ServerPinger [" + ServerPingerLogger.getFormattedDateString() + "]",
-                    (!onlineServers.isEmpty() ? "Online: " + onlineServers : "") +
-                            (!offlineServers.isEmpty() ? (!onlineServers.isEmpty() ? "\n" : "") + "Offline: " + offlineServers : "")
-            );
-        } catch (IOException exception) {
-            exception.printStackTrace();
+            try {
+                this.pushover.sendNotification("ServerPinger [" + ServerPingerLogger.getFormattedDateString() + "]",
+                        (!onlineServers.isEmpty() ? "Online: " + onlineServers : "") +
+                                (!offlineServers.isEmpty() ? (!onlineServers.isEmpty() ? "\n" : "") + "Offline: " + offlineServers : "")
+                );
+            } catch (IOException exception) {
+                exception.printStackTrace();
+            }
         }
 
         //Start Task
@@ -185,6 +188,7 @@ public class ServerPinger {
                 config.getServers(),
                 config.getPushover_user(),
                 config.getPushover_token(),
+                config.isInitial_notification(),
                 config.getTimeout(),
                 config.getPeriod(),
                 config.getNotifytime()

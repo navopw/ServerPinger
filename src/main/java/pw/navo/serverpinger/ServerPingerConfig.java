@@ -19,6 +19,7 @@ public class ServerPingerConfig {
     }};
     private String pushover_token = "";
     private String pushover_user = "";
+    private boolean initial_notification = true;
     private int timeout = 3000;
     private int period = 5000;
     private int notifytime = 20000;
@@ -29,6 +30,7 @@ public class ServerPingerConfig {
         properties.setProperty("servers", servers.stream().collect(Collectors.joining(",")));
         properties.setProperty("pushover_token", this.pushover_token);
         properties.setProperty("pushover_user", this.pushover_user);
+        properties.setProperty("initial_notification", Boolean.toString(this.initial_notification));
         properties.setProperty("timeout", Integer.toString(this.timeout));
         properties.setProperty("period", Integer.toString(this.period));
         properties.setProperty("notifytime", Integer.toString(this.notifytime));
@@ -47,6 +49,7 @@ public class ServerPingerConfig {
         this.servers = Arrays.asList(properties.getProperty("servers").split(","));
         this.pushover_token = properties.getProperty("pushover_token");
         this.pushover_user = properties.getProperty("pushover_user");
+        this.initial_notification = Boolean.parseBoolean(properties.getProperty("initial_notification"));
         this.timeout = Integer.parseInt(properties.getProperty("timeout"));
         this.period = Integer.parseInt(properties.getProperty("period"));
         this.notifytime = Integer.parseInt(properties.getProperty("notifytime"));
