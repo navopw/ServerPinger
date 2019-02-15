@@ -5,11 +5,19 @@ import lombok.Data;
 @Data
 public class ServerStatus {
 
-    //The last known ping in ms
+    /**
+     * The last tested ping of this server in ms
+     */
     private long lastPing;
-    //Last state change as timestamp (currentTimeMillis)
+
+    /**
+     * Last state change as currentTimeMillis (reset when server goes from offline->online or online->offline)
+     */
     private long lastStateChangeTimestamp;
-    //Whether the last push notification was positive or negative
+
+    /**
+     * True if last push notification was a positive notification (e.g. 1.1.1.1 is online again)
+     */
     private boolean lastNotify;
 
     /**

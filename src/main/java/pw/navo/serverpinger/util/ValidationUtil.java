@@ -1,10 +1,15 @@
 package pw.navo.serverpinger.util;
 
+import pw.navo.serverpinger.ServerPingerLogger;
+
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
-public class IpAddressUtil {
+public class ValidationUtil {
+
     private static Pattern VALID_IPV4_PATTERN = null;
     private static Pattern VALID_IPV6_PATTERN = null;
     private static final String ipv4Pattern = "(([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.){3}([01]?\\d\\d?|2[0-4]\\d|25[0-5])";
@@ -14,8 +19,9 @@ public class IpAddressUtil {
         try {
             VALID_IPV4_PATTERN = Pattern.compile(ipv4Pattern, Pattern.CASE_INSENSITIVE);
             VALID_IPV6_PATTERN = Pattern.compile(ipv6Pattern, Pattern.CASE_INSENSITIVE);
-        } catch (PatternSyntaxException e) {
-            //logger.severe("Unable to compile pattern", e);
+        } catch (PatternSyntaxException exception) {
+            ServerPingerLogger.info("Unable to compile regex pattern");
+            exception.printStackTrace();
         }
     }
 
@@ -29,11 +35,23 @@ public class IpAddressUtil {
      *  <code>false</code> otherwise.
      */
     public static boolean isIpAddress(String ipAddress) {
-        Matcher m1 = IpAddressUtil.VALID_IPV4_PATTERN.matcher(ipAddress);
-        if (m1.matches()) {
+        Matcher ipv4Matcher = ValidationUtil.VALID_IPV4_PATTERN.matcher(ipAddress);
+        if (ipv4Matcher.matches()) {
             return true;
         }
-        Matcher m2 = IpAddressUtil.VALID_IPV6_PATTERN.matcher(ipAddress);
-        return m2.matches();
+
+        Matcher ipv6Matcher = ValidationUtil.VALID_IPV6_PATTERN.matcher(ipAddress);
+        return ipv6Matcher.matches();
     }
+
+    //TODO: Rewrite this method to regex check
+    public static boolean isDomain(String domain) {
+        try {
+            new URL("http://" + domain);
+            return true;
+        } catch (MalformedURLException e) {
+            return false;
+        }
+    }
+
 }

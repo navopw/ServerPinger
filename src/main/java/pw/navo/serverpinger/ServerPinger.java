@@ -1,6 +1,6 @@
 package pw.navo.serverpinger;
 
-import pw.navo.serverpinger.util.IpAddressUtil;
+import pw.navo.serverpinger.util.ValidationUtil;
 
 import java.io.IOException;
 import java.util.*;
@@ -18,6 +18,15 @@ public class ServerPinger {
         this.timer = new Timer();
     }
 
+    /**
+     * Starts ServerPinger with specified parameters (the parameters are read from the config in the main Method an passed through
+     * @param servers All ip addresses/domains the serverpinger should consider
+     * @param user The user key from your pushover account
+     * @param token The token from your application at the pushover website
+     * @param timeout The time before the ServerPinger aborts the ping try and declares server as not reachable
+     * @param period The period in which the ServerPinger should ping the ip addresses
+     * @param notifytime The time a server has to be offline or online again to trigger a push notification
+     */
     public void start(List<String> servers, String user, String token, int timeout, int period, int notifytime) {
         //Pushover
         this.pushover = new Pushover(user, token);
@@ -46,6 +55,9 @@ public class ServerPinger {
         ServerPingerLogger.info("Started task, now checking every " + Math.round(period / 1000) + " seconds...");
     }
 
+    /**
+     * Runs first check on server to see whether he is online (sets last ping, lastnotify, lastStateChange, ...)
+     */
     public void runFirstCheck(String server, int timeout) {
         this.servers.put(server, new ServerStatus());
 
@@ -64,6 +76,9 @@ public class ServerPinger {
         }
     }
 
+    /**
+     * Start task that pings the servers in a specified period
+     */
     public void startTask(Set<String> servers, int timeout, int period, int notifytime) {
         ServerPingerTask task = new ServerPingerTask(servers, timeout, (server, ping) -> {
             ServerStatus status = this.servers.get(server);
@@ -99,12 +114,20 @@ public class ServerPinger {
         this.timer.scheduleAtFixedRate(task, period, period); //delay = period is no mistake, the second check should start after {period} time
     }
 
+    /**
+     * Filters the servers hashmap for servers with last ping successful
+     * @return
+     */
     public Map<String, ServerStatus> getOnlineServers() {
         return this.servers.entrySet().stream()
                 .filter(map -> map.getValue().lastPingSuccessful())
                 .collect(Collectors.toMap(map -> map.getKey(), map -> map.getValue()));
     }
 
+    /**
+     * Filters the servers hashmap for servers with last ping failed
+     * @return
+     */
     public Map<String, ServerStatus> getOfflineServers() {
         return this.servers.entrySet().stream()
                 .filter(map -> !map.getValue().lastPingSuccessful())
@@ -144,8 +167,8 @@ public class ServerPinger {
 
         //Validate ip addresses
         for (String server : config.getServers()) {
-            if (!IpAddressUtil.isIpAddress(server)) {
-                ServerPingerLogger.info(server + " is no valid ip address!");
+            if (!ValidationUtil.isIpAddress(server) && !ValidationUtil.isDomain(server)) {
+                ServerPingerLogger.info(server + " is no valid ip address or domain!");
                 return;
             }
         }
