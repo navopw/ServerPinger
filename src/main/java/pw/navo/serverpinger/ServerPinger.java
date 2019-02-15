@@ -96,7 +96,7 @@ public class ServerPinger {
             status.setLastPing(ping);
         });
 
-        this.timer.scheduleAtFixedRate(task, 0, period);
+        this.timer.scheduleAtFixedRate(task, period, period); //delay = period is no mistake, the second check should start after {period} time
     }
 
     public Map<String, ServerStatus> getOnlineServers() {
