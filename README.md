@@ -21,7 +21,7 @@ Receive push notifications on your phone when your server goes online/offline!
 - Create a [Pushover](https://pushover.net) Account and download the app in your app store and login (7 days trial and then 4.99$ one time payment)
 - Create an application on Pushover.net
 - Paste **user key** and **application token** from Pushover.net to your config
-- Write the ip addresses or domain names you want to monito into the config (See configuration section)
+- Write the ip addresses or domain names you want to monitor into the config (See configuration section)
 
 I recommend using ServerPinger with `screen` so it runs in background.
 
