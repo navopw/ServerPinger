@@ -6,7 +6,7 @@ Receive push notifications on your phone when your server goes online/offline!
 ### Screenshots
 
 - The first image shows the push notification that comes when you start ServerPinger and everything works
-- The second image shows a push notification when your servers comes back online
+- The second image shows a push notification when your server comes back online
 - The third image shows a push notification when your server goes down/offline
 
 ![](https://i.imgur.com/9pwSK5f.png)
